@@ -20,11 +20,10 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            "test_node = my_robo_controller.my_first_node:zaid",
-            "draw_circle = my_robo_controller.draw_circle:main",
-            "pose_subs = my_robo_controller.pose_subscriber:main",
-            "turtle_loop = my_robo_controller.turtlesim_loop:main",
-            "draw_square = my_robo_controller.draw_square:main"
+            "first_node = my_robo_controller.my_first_node:zaid",
+            "publisher_node = my_robo_controller.Circle_Publisher_Node:main",
+            "subscriber_node = my_robo_controller.Position_Subscriber_Node:main",
+            "loop_node = my_robo_controller.Loop_Node:main"
         ],
     },
 )
