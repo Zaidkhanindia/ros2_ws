@@ -10,25 +10,30 @@ class DrawRectangleNode(Node):
         super().__init__("draw_rectangle")
         self.get_logger().info("code executed")
 
-        self.rectangle_pub = self.create_publisher(
+        self.sq_pub = self.create_publisher(
             Twist, "/turtle1/cmd_vel", 10
         )
-        
-        self.rectangle_subscriber = self.create_subscription(
-            Pose, "/turtle1/pose", self.rectangle_callback, 10
-        )
-    
-    def rectangle_callback(self, pose: Pose):
-        self.get_logger().info("[ " + str(pose.x) + " ], " + "[ " + str(pose.y) + " ]")
-        vel = Twist()
-        vel.linear.x = 2.0
-        vel.angular.z = 0.0
-        self.rectangle_pub.publish(vel)
-        if pose.x == 8.0:
-            vel.angular.z = 1.0
-            vel.linear.x = 0.0
-            self.rectangle_pub.publish(vel)
 
+        '''self.timer_ = self.create_timer(0.5, self.draw_circ_callback)'''
+        
+        self.sq_sub = self.create_subscription(
+            Pose, "/turtle1/pose", self.draw_circ_callback, 10
+        )
+
+    def draw_circ_callback(self, position: Pose):
+        msg = Twist()
+        if 9 > position.x > 5:
+            msg.linear.x = 1.0
+            msg.angular.z = 0.0
+        if position.x == 8.0:
+            msg.linear.y = 1.0
+            msg.linear.x = 0.0
+            msg.angular.z = 0.0
+
+        
+        self.sq_pub.publish(msg)
+
+        self.get_logger().info("[ " + str(position.x) + " ], [" + str(position.y) + " ]")
 
 
 def main(args=None):
